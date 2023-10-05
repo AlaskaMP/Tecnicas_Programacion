@@ -15,11 +15,13 @@
 #include <fstream>
 using namespace std;
 void leerStockProductos(int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int&cantProductos);
-void procesarDatos(int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int cantProductos);
 void pedirYProcesarFecha(int&fechaInicial,int&fechaFinal);
 int convertirFecha(int d,int m,int a);
 void procesarDatos(int fechaInicial,int fechaFinal,int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int cantProductos);
-int buscarProducto(int codigoProducto,int*codigosProductos,int cantProductos);
+int buscarProducto(int codigoProducto,int*codigosProductos,int codigoAlmacen,int*codigosAlmacenes,int cantProductos);
+bool estaEnAlmacenesFiltrados(int codigoAlmacen,int*almacenesFiltrados);
+void ordenarAlmacenes(int*almacenesFiltrados);
+
 
 
 

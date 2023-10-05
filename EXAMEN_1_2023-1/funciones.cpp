@@ -25,6 +25,7 @@ void leerStockProductos(int*codigosProductos,int*codigosAlmacenes,int*stockProdu
         codigosProductos[cantProductos]=codigoP;
         codigosAlmacenes[cantProductos]=codigoA;
         stockProductos[cantProductos]=stock;
+        cantProductos++;
     }
     
 }
@@ -46,37 +47,84 @@ void procesarDatos(int fechaInicial,int fechaFinal,int*codigosProductos,int*codi
         cout<<"Error al abrir el archivo Transacciones.txt"<<endl;
         exit(1);
     }
-    int codigoAlmacen,d,m,a,codigoProducto,catidadProducto;
+    int codigoAlmacen,codigoAlmacen2,d,m,a,codigoProducto,catidadProducto;
     char caracter;
     char tipoMovimiento;
     int fechaEvaluando;
-    int indiceProducto;
+    int indiceProducto,indiceProducto2;
+    int cantidadDeTransacciones;
+    int ingresos[300]{},salidas[300]{};
+    int enviados[300]{},recibidos[300]{};
+    int almacenesFiltrados[10];
+    int i=0;
     while(1){
         archTransacciones>>codigoAlmacen;
         if(archTransacciones.eof())break;
         archTransacciones>>d>>caracter>>m>>caracter>>a;
         fechaEvaluando=convertirFecha(d,m,a);
         if(fechaEvaluando>=fechaInicial&&fechaEvaluando<=fechaFinal){
-            archTransacciones>>ws;
-            while(archTransacciones.get()!=' ');
-            archTransacciones>>codigoProducto;
-            archTransacciones>>cantProductos;
-            indiceProducto=buscarProducto(codigoProducto,codigosProductos,cantProductos);
-            archTransacciones>>tipoMovimiento;
-            if(tipoMovimiento=='I'){
-
+            if(!estaEnAlmacenesFiltrados(codigoAlmacen,almacenesFiltrados)){
+                almacenesFiltrados[i]=codigoAlmacen;
+                i++;
+            } 
+            
+            while(1){
+                archTransacciones>>ws;
+                while(archTransacciones.get()!=' ');
+                archTransacciones>>codigoProducto;
+                archTransacciones>>cantidadDeTransacciones;
+                indiceProducto=buscarProducto(codigoProducto,codigosProductos,codigoAlmacen,codigosAlmacenes,cantProductos);
+                archTransacciones>>tipoMovimiento;
+                if(tipoMovimiento=='I'){
+                    ingresos[indiceProducto]+=cantidadDeTransacciones;
+                }else if(tipoMovimiento=='S'){
+                    salidas[indiceProducto]+=cantidadDeTransacciones;
+                }else if(tipoMovimiento=='T'){
+                    archTransacciones>>codigoAlmacen2;
+                    enviados[indiceProducto]+=cantidadDeTransacciones;
+                    indiceProducto2=buscarProducto(codigoProducto,codigosProductos,codigoAlmacen2,codigosAlmacenes,cantProductos);
+                    recibidos[indiceProducto2]+=cantidadDeTransacciones;             
+                }
+                if(archTransacciones.get()=='\n')break;
             }
         }
+        else{
+            while(archTransacciones.get()!='\n');
+        }
     }
+    ordenarAlmacenes(almacenesFiltrados);
+    
+
+
+
 
 }
-int buscarProducto(int codigoProducto,int*codigosProductos,int cantProductos){
+int buscarProducto(int codigoProducto,int*codigosProductos,int codigoAlmacen,int*codigosAlmacenes,int cantProductos){
     for(int i=0;i<cantProductos;i++){
-        if(codigoProducto==codigosProductos[i]){
+        if(codigoProducto==codigosProductos[i]and codigoAlmacen==codigosAlmacenes[i]){
             return i;
         }
     }
     return -1;
+}
+bool estaEnAlmacenesFiltrados(int codigoAlmacen,int*almacenesFiltrados){
+   for(int i=0;i<10;i++){
+        if(codigoAlmacen==almacenesFiltrados[i]){
+            return true;
+        }
+   }
+  return false;
+}
+void ordenarAlmacenes(int*almacenesFiltrados){
+    for(int i=0;i<9;i++){
+        for(int j=i+1;j<10;j++){
+            if(almacenesFiltrados[i]>almacenesFiltrados[j]){
+                int aux=almacenesFiltrados[i];
+                almacenesFiltrados[i]=almacenesFiltrados[j];
+                almacenesFiltrados[j]=aux;
+            }
+        }
+    }
 }
 
 

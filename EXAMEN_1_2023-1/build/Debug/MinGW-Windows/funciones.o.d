@@ -1,1 +1,3 @@
-build/Debug/MinGW-Windows/funciones.o: funciones.cpp
+build/Debug/MinGW-Windows/funciones.o: funciones.cpp funciones.h
+
+funciones.h:
