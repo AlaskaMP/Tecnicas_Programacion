@@ -19,11 +19,17 @@ using namespace std;
  */
 int main(int argc, char** argv) {
     int codigosProductos[300],codigosAlmacenes[300],stockProductos[300];
-    int cantProductos;
+    int cantProductos,almacenesFiltrados[10]{};
     int fechaInicial,fechaFinal;
+    int d1,m1,a1,d2,m2,a2;
+    int ingresos[300]{},salidas[300]{};
+    int enviados[300]{},recibidos[300]{};
+    int stocksFinales[300];
     leerStockProductos(codigosProductos,codigosAlmacenes,stockProductos,cantProductos);
-    pedirYProcesarFecha(fechaInicial,fechaFinal);
-    procesarDatos(fechaInicial,fechaFinal,codigosProductos,codigosAlmacenes,stockProductos,cantProductos);
+    pedirYProcesarFecha(fechaInicial,fechaFinal,d1,m1,a1,d2,m2,a2);
+    procesarDatos(fechaInicial,fechaFinal,codigosProductos,codigosAlmacenes,stockProductos,cantProductos,almacenesFiltrados,ingresos,salidas,enviados,recibidos,stocksFinales);
+    imprimirReporte(almacenesFiltrados,codigosProductos,codigosAlmacenes,stockProductos,cantProductos,d1,m1,a1,d2,m2,a2,ingresos,salidas,enviados,recibidos,stocksFinales);
+
 
 
     return 0;

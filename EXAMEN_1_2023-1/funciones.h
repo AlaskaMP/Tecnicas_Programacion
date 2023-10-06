@@ -15,12 +15,15 @@
 #include <fstream>
 using namespace std;
 void leerStockProductos(int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int&cantProductos);
-void pedirYProcesarFecha(int&fechaInicial,int&fechaFinal);
+void pedirYProcesarFecha(int&fechaInicial,int&fechaFinal,int&d1,int&m1,int&a1,int&d2,int&m2,int&a2);
 int convertirFecha(int d,int m,int a);
-void procesarDatos(int fechaInicial,int fechaFinal,int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int cantProductos);
+void procesarDatos(int fechaInicial,int fechaFinal,int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int cantProductos,int*almacenesFiltrados,int*ingresos,int*salidas,int*enviados,int*recibidos,int*stocksFinales);
 int buscarProducto(int codigoProducto,int*codigosProductos,int codigoAlmacen,int*codigosAlmacenes,int cantProductos);
 bool estaEnAlmacenesFiltrados(int codigoAlmacen,int*almacenesFiltrados);
 void ordenarAlmacenes(int*almacenesFiltrados);
+void ordenarProductos(int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int cantProductos,int*ingresos,int*salidas,int*enviados,int*recibidos);
+void imprimirReporte(int*almacenesFiltrados,int*codigosProductos,int*codigosAlmacenes,int*stockProductos,int cantProductos,int d1,int m1,int a1,int d2,int m2,int a2,int*ingresos,int*salidas,int*enviados,int*recibidos,int*stocksFinales);
+
 
 
 
